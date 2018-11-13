@@ -6,14 +6,17 @@ public class Turret : MonoBehaviour {
     
     public static Transform target;
 
-    [SerializeField]
-    private float range = 15f;
+
+    [Header("Attribute for Turrets")]
+    public float range = 15f;    
+    public float FireCountdown = 0f;
+    public float FireRate = 1f;
 
     private string EnemyTag = "Enemy";
     private float TurnSpeed = 2f;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 
         InvokeRepeating("UpdateTarget", 0f, 0.5f);
         
@@ -32,7 +35,26 @@ public class Turret : MonoBehaviour {
         Vector3 Rotate = Quaternion.Lerp(transform.rotation, LookRotate, TurnSpeed * Time.deltaTime).eulerAngles;
         transform.rotation = Quaternion.Euler(Rotate);
 
+        if(FireCountdown <= 0f)
+        {
+            Shoot();
+            FireCountdown = 1f / FireRate;
+        }
+
+        FireCountdown -= Time.deltaTime;
+
 	}
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, range);
+    }
+
+    void Shoot()
+    {
+
+    }
 
     void UpdateTarget()
     {
@@ -61,11 +83,5 @@ public class Turret : MonoBehaviour {
             target = null;
         }
     }
-
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, range);
-    }
-
+    
 }
