@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
@@ -10,9 +10,12 @@ public class GameManager : MonoBehaviour {
     private Transform SpawnPoint;
     [SerializeField]
     private float timeDelaySpawner = 5f;
+    [SerializeField]
+    private Text WaveCounter;
+
 
     private float cooldown = 2f;
-    private int enemySpawnIndex = 1;
+    private int enemySpawnIndex = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -29,23 +32,23 @@ public class GameManager : MonoBehaviour {
         }
 
         cooldown -= Time.deltaTime;
-
+        WaveCounter.text = enemySpawnIndex.ToString();
 	}
 
     IEnumerator SpawnWave()
     {
-
+        enemySpawnIndex++;
         for (int i = 0; i < enemySpawnIndex; i++)
         {
             SpawnEnemy();
+            yield return new WaitForSeconds(0.5f);
         }
-        enemySpawnIndex++;
-        yield return new WaitForSeconds(0.5f);
+        
     }
 
     void SpawnEnemy()
     {
-        Instantiate(enemyPrefab, SpawnPoint.transform);
+        Instantiate(enemyPrefab, SpawnPoint.position, SpawnPoint.rotation);
     }
 
 }
