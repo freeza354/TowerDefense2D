@@ -5,7 +5,8 @@ using UnityEngine;
 public class Turret : MonoBehaviour {
     
     public static Transform target;
-
+    public GameObject bulletPrefab;
+    public Transform FireTarget;
 
     [Header("Attribute for Turrets")]
     public float range = 15f;    
@@ -14,6 +15,8 @@ public class Turret : MonoBehaviour {
 
     private string EnemyTag = "Enemy";
     private float TurnSpeed = 2f;
+
+
 
     // Use this for initialization
     void Start () {
@@ -53,6 +56,13 @@ public class Turret : MonoBehaviour {
 
     void Shoot()
     {
+        GameObject bulletTemp = (GameObject)Instantiate(bulletPrefab, FireTarget);
+        Bullet bullet = bulletTemp.GetComponent<Bullet>();
+
+        if(bullet != null)
+        {
+            bullet.ChaseTarget(target);
+        }
 
     }
 
