@@ -800,10 +800,11 @@ MonoBehaviour:
   WaveCounter: 0
   EnemySpawnIndex: 5
   HealthOrgan: 1000
-  CellsPoint: 0
+  CellsPoint: 1000
   Turrets: {fileID: 1875456567043694, guid: e0c3f5543a02b694f9f3385e65d6e77e, type: 2}
   ParentPos: {fileID: 1918974455}
   TurretPriceText: {fileID: 624822172}
+  MoneyText: {fileID: 2030061842}
 --- !u!4 &1069244264
 Transform:
   m_ObjectHideFlags: 0

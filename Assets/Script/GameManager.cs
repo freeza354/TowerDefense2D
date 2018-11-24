@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour {
 
     [Header("UI Settings")]
     public Text TurretPriceText;
+    public Text MoneyText;
 
     public static float HealthOrganPublic;
 
@@ -44,8 +45,9 @@ public class GameManager : MonoBehaviour {
         //Update money
         CellsPoint = CellPointPublic;
 
-        //Update Price
+        //Update UI
         TurretPriceText.text = "" + Turret.TurretPricePublic;
+        MoneyText.text = "" + CellsPoint;
 
         if(EnemyIndex == 0)
         {
@@ -67,7 +69,11 @@ public class GameManager : MonoBehaviour {
             Vector3 MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             MousePos.z = 0;
             ParentPos.position = MousePos;
+
+            CellPointPublic -= (float)Turret.TurretPricePublic;
+
             Instantiate(Turrets, ParentPos.transform.position, ParentPos.transform.rotation);
+
             canBuild = false;
             return;
         }

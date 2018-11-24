@@ -69,7 +69,6 @@ public class EnemyAI : MonoBehaviour {
         {
             GameManager.EnemyIndex--;
             GameManager.HealthOrganPublic -= EnemyDamage;
-            GameManager.CellPointPublic += EnemyBounty;
             Destroy(gameObject);
         }
 
@@ -78,6 +77,7 @@ public class EnemyAI : MonoBehaviour {
         {
             GameManager.EnemyIndex--;
             Instantiate(CellPointLogos, gameObject.transform.position, gameObject.transform.rotation);
+            GameManager.CellPointPublic += EnemyBounty;
             Destroy(gameObject);
         }
 
