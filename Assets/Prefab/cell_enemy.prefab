@@ -52,7 +52,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ccdfb54b106e674f8ec108c42b0d88d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemySpeeed: 4
+  TargetPosition: {fileID: 0}
+  EnemyHealth: 0
+  EnemyBounty: 0
+  EnemyMoveSpeed: 2
 --- !u!212 &212136935143407660
 SpriteRenderer:
   m_ObjectHideFlags: 1

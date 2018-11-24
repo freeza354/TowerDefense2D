@@ -4,45 +4,51 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour {
 
-    [SerializeField]
-    private float EnemySpeeed = 10f;
+    [Header("Enemy Option")]
+    public GameObject TargetPosition;
+    public float EnemyHealth;
+    public float EnemyBounty;
+    public float EnemyMoveSpeed;
 
-    private Transform target;
-    private int WaypointIndex = 0;
+    private float randPosY;
 
 	// Use this for initialization
 	void Start () {
 
-        target = LoadWaypoint.Waypoints[0];
+        StartCoroutine(MoveBehavior());
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        //Please Activate One of The Following
+        //Originally, i thought it's better without Lerp
 
-        Vector2 direction = target.position - transform.position;
-        //Move Enemy
-        transform.Translate(direction.normalized * EnemySpeeed * Time.deltaTime, Space.World);
-        
-        //Change Direction
-        if (Vector2.Distance(transform.position, target.position) <= 0.4f) 
+        //Without Lerp
+        transform.Translate(new Vector3(TargetPosition.transform.position.x, randPosY, 0) * EnemyMoveSpeed * Time.deltaTime);
+
+        //With Lerp
+        //transform.position = Vector3.Lerp(gameObject.transform.position, new Vector3(TargetPosition.transform.position.x, randPosY, 0), EnemyMoveSpeed * Time.deltaTime);
+
+        if(gameObject.transform.position.y >= 8f)
         {
-            GetNextWaypoint();
+            randPosY = Random.Range(-8f, -1f);
+        }
+        if(gameObject.transform.position.y <= -8f)
+        {
+            randPosY = Random.Range(1f, 8f);
         }
 
 	}
 
-    void GetNextWaypoint()
+    IEnumerator MoveBehavior()
     {
-        //Check waypoint, if it's the lasst, then Destroy
-        if (WaypointIndex >= LoadWaypoint.Waypoints.Length - 1)
+        while (true)
         {
-            Destroy(gameObject);
-            return;
+            randPosY = Random.Range(-8f, 8f);
+
+            yield return new WaitForSeconds(0.5f);
         }
-        
-        WaypointIndex++;
-        target = LoadWaypoint.Waypoints[WaypointIndex];
     }
 
 }

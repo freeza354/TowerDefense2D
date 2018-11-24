@@ -4,35 +4,44 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+    [Header("Wave Settings")]
+    public GameObject EnemyPrefab;
+    public GameObject SpawnPosition;
+    public float SpawnCooldownInterval = 5f;
+    public float WaveTimerInterval;
+    public int WaveCounter = 0;
+
+    [Header("Target Enemy Settings")]
+
+
     [SerializeField]
     private GameObject enemyPrefab;
     [SerializeField]
     private Transform SpawnPoint;
     [SerializeField]
     private float timeDelaySpawner = 5f;
-    [SerializeField]
-    private Text WaveCounter;
 
-
+    private float WaveIntervalPrivate;
     private float cooldown = 2f;
     private int enemySpawnIndex = 0;
 
 	// Use this for initialization
 	void Start () {
-		
+
+        WaveIntervalPrivate = WaveTimerInterval;
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
-        if(cooldown <= 0f)
+        if(WaveTimerInterval <= 0f)
         {
             StartCoroutine(SpawnWave());
-            cooldown = timeDelaySpawner;
+            WaveTimerInterval = timeDelaySpawner;
         }
 
-        cooldown -= Time.deltaTime;
-        WaveCounter.text = enemySpawnIndex.ToString();
+        WaveTimerInterval -= Time.deltaTime;
 	}
 
     IEnumerator SpawnWave()
