@@ -264,6 +264,7 @@ MonoBehaviour:
   EnemyHealth: 0
   EnemyBounty: 0
   EnemyMoveSpeed: 0.1
+  EnemyDamage: 0
 --- !u!1 &1069244262
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,15 +292,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2592cc2fbd8319e4f8d881633fc232ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyPrefab: {fileID: 0}
-  SpawnPosition: {fileID: 0}
-  SpawnTimerInterval: 0
-  WaveTimerInterval: 0
-  enemyPrefab: {fileID: 1598813075399714, guid: 208ba2d788878434b82c7ff00a12d49a,
+  EnemyPrefab: {fileID: 1598813075399714, guid: 208ba2d788878434b82c7ff00a12d49a,
     type: 2}
-  SpawnPoint: {fileID: 0}
-  timeDelaySpawner: 5
-  WaveCounter: {fileID: 770492311}
+  SpawnPosition: {fileID: 1569139894}
+  SpawnCooldownInterval: 5
+  WaveCounter: 0
+  EnemySpawnIndex: 5
+  HealthOrgan: 1000
 --- !u!4 &1069244264
 Transform:
   m_ObjectHideFlags: 0
@@ -365,8 +364,8 @@ GameObject:
   - component: {fileID: 1204875706}
   - component: {fileID: 1204875705}
   m_Layer: 0
-  m_Name: New Sprite
-  m_TagString: Untagged
+  m_Name: TargetSprite
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

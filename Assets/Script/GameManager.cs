@@ -8,49 +8,60 @@ public class GameManager : MonoBehaviour {
     public GameObject EnemyPrefab;
     public GameObject SpawnPosition;
     public float SpawnCooldownInterval = 5f;
-    public float WaveTimerInterval;
     public int WaveCounter = 0;
     public int EnemySpawnIndex = 5;
+    public static int EnemyIndex;
 
-    [Header("Target Enemy Settings")]
+    [Header("Organ Settings")]
     public float HealthOrgan;
-
-    [SerializeField]
-    private GameObject enemyPrefab;
-    [SerializeField]
-    private Transform SpawnPoint;
-    [SerializeField]
-    private float timeDelaySpawner = 5f;
 
     public static float HealthOrganPublic;
 
-    private float WaveIntervalPrivate;
-    private float cooldown = 2f;
-    private int enemySpawnIndex = 0;
-
+    private bool isFirstWave = true;
+    
 	// Use this for initialization
 	void Start () {
 
-        WaveIntervalPrivate = WaveTimerInterval;
         HealthOrganPublic = HealthOrgan;
+        StartCoroutine(StartNextWave());
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
-        if(WaveTimerInterval <= 0f)
+        if(EnemyIndex == 0)
         {
-            StartCoroutine(SpawnWave());
-            WaveTimerInterval = timeDelaySpawner;
+            //Start Next Wave
+            StartCoroutine(StartNextWave());
+            EnemyIndex = EnemySpawnIndex;
         }
 
-        WaveTimerInterval -= Time.deltaTime;
+        if(HealthOrganPublic <= 0)
+        {
+            //GameOver;
+        }
+
 	}
+
+    IEnumerator StartNextWave()
+    {
+        StartCoroutine(SpawnWave());
+        yield return new WaitForSeconds(5f);
+    }
 
     IEnumerator SpawnWave()
     {
-        EnemySpawnIndex = EnemySpawnIndex + ((WaveCounter + 1) * 2);
+        if (isFirstWave)
+        {
+            EnemySpawnIndex += 0;
+        }
+
+        else
+        {
+            EnemySpawnIndex += ((WaveCounter + 1) * 2);
+        }
+
         for (int i = 0; i < EnemySpawnIndex; i++)
         {
             SpawnEnemy();

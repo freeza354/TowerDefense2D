@@ -9,27 +9,31 @@ public class EnemyAI : MonoBehaviour {
     public float EnemyHealth;
     public float EnemyBounty;
     public float EnemyMoveSpeed;
+    public float EnemyDamage;
 
     private float randPosY;
 
 	// Use this for initialization
 	void Start () {
 
+        TargetPosition = GameObject.FindGameObjectWithTag("Target");
         StartCoroutine(MoveBehavior());
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        //Please Activate One of The Following
+
+        //Please Activate Enemies Move from one of the following
         //Originally, i thought it's better without Lerp
 
         //Without Lerp
-        transform.Translate(new Vector3(TargetPosition.transform.position.x, randPosY, 0) * EnemyMoveSpeed * Time.deltaTime);
+        transform.Translate(new Vector3(TargetPosition.transform.position.x + 5f, randPosY, 0) * EnemyMoveSpeed * Time.deltaTime);
 
         //With Lerp
         //transform.position = Vector3.Lerp(gameObject.transform.position, new Vector3(TargetPosition.transform.position.x, randPosY, 0), EnemyMoveSpeed * Time.deltaTime);
-
+        
+        //Random Movement on Y axis
         if(gameObject.transform.position.y >= 8f)
         {
             randPosY = Random.Range(-8f, -1f);
@@ -37,6 +41,21 @@ public class EnemyAI : MonoBehaviour {
         if(gameObject.transform.position.y <= -8f)
         {
             randPosY = Random.Range(1f, 8f);
+        }
+
+        //Destroy Object when arrived at destination
+        if(gameObject.transform.position.x >= TargetPosition.transform.position.x)
+        {
+            GameManager.EnemyIndex--;
+            GameManager.HealthOrganPublic -= EnemyDamage;
+            Destroy(gameObject);
+        }
+
+        //Destroy When HP below 0
+        if(EnemyHealth <= 0)
+        {
+            GameManager.EnemyIndex--;
+            Destroy(gameObject);
         }
 
 	}

@@ -53,9 +53,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetPosition: {fileID: 0}
-  EnemyHealth: 0
-  EnemyBounty: 0
-  EnemyMoveSpeed: 2
+  EnemyHealth: 150
+  EnemyBounty: 100
+  EnemyMoveSpeed: 0.05
+  EnemyDamage: 20
 --- !u!212 &212136935143407660
 SpriteRenderer:
   m_ObjectHideFlags: 1
