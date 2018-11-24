@@ -27,8 +27,8 @@ public class Bullet : MonoBehaviour {
 
         //Vector2 dir = target.position - transform.position;
         float distanceSpeed = bulletSpeed * Time.deltaTime;
-        
-        transform.Translate(new Vector2(target.position.x, target.position.y) * distanceSpeed);
+
+        transform.position = Vector2.MoveTowards(gameObject.transform.position, target.position, distanceSpeed);
 
 	}
 
@@ -39,7 +39,8 @@ public class Bullet : MonoBehaviour {
 
     public void ChaseTarget(Transform _target)
     {
-        _target = target;
+        print("Terpanggil" + _target.position.x);
+        target = _target;
     }
 
 }

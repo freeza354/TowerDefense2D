@@ -11,14 +11,11 @@ public class EnemyAI : MonoBehaviour {
     public float EnemyMoveSpeed;
     public float EnemyDamage;
 
-    public static float EnemyHealthPublic;
-
     private float randPosY;
     
 	// Use this for initialization
 	void Start () {
 
-        EnemyHealthPublic = EnemyHealth;
         TargetPosition = GameObject.FindGameObjectWithTag("Target");
         StartCoroutine(MoveBehavior());
 
@@ -55,7 +52,7 @@ public class EnemyAI : MonoBehaviour {
         }
 
         //Destroy When HP below 0
-        if(EnemyHealthPublic <= 0)
+        if(EnemyHealth <= 0)
         {
             GameManager.EnemyIndex--;
             Destroy(gameObject);
@@ -67,7 +64,7 @@ public class EnemyAI : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Bullet")
         {
-            EnemyHealthPublic -= Bullet.bulletDamagePublic;
+            EnemyHealth -= Bullet.bulletDamagePublic;
             Destroy(collision.gameObject);
         }
     }
