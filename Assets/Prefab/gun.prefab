@@ -97,10 +97,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5e99582e6108ca4c97bee6a18a114f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
   bulletPrefab: {fileID: 1876741167925678, guid: 451b3afcdc085c24580dc8442b39bc13,
     type: 2}
   FireTarget: {fileID: 4149996731970984}
-  range: 10
+  range: 6
   FireDelay: 2
   FireRate: 1
 --- !u!212 &212266649154604116

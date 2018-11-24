@@ -12,23 +12,41 @@ public class GameManager : MonoBehaviour {
     public int EnemySpawnIndex = 5;
     public static int EnemyIndex;
 
-    [Header("Organ Settings")]
+    [Header("Game Settings")]
     public float HealthOrgan;
+    public float CellsPoint;
+
+    [Header("Turrets Build Settings")]
+    public GameObject Turrets;
+    public Transform ParentPos;
+
+    [Header("UI Settings")]
+    public Text TurretPriceText;
 
     public static float HealthOrganPublic;
 
+    public static float CellPointPublic;
+    private bool canBuild, isClicking;
     private bool isFirstWave = true;
     
 	// Use this for initialization
 	void Start () {
 
         HealthOrganPublic = HealthOrgan;
+        canBuild = false;
+        CellPointPublic = CellsPoint;
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+
+        //Update money
+        CellsPoint = CellPointPublic;
+
+        //Update Price
+        TurretPriceText.text = "" + Turret.TurretPricePublic;
+
         if(EnemyIndex == 0)
         {
             //Start Next Wave
@@ -41,10 +59,41 @@ public class GameManager : MonoBehaviour {
             //GameOver;
         }
 
+        //Build Turrets
+        isClicking = Input.GetMouseButtonDown(0);
+
+        if(canBuild == true && isClicking == true && CellsPoint >= Turret.TurretPricePublic)
+        {
+            Vector3 MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            MousePos.z = 0;
+            ParentPos.position = MousePos;
+            Instantiate(Turrets, ParentPos.transform.position, ParentPos.transform.rotation);
+            canBuild = false;
+            return;
+        }
+
 	}
+
+    public void BuyTurrets()
+    {
+        if (canBuild == false)
+        {
+            canBuild = true;
+        }
+        else
+        {
+            canBuild = false;
+        }
+    }
 
     IEnumerator StartNextWave()
     {
+        EnemyAI.EnemyHealthPublic += 25 * Mathf.Pow((WaveCounter + 1), (float)1.12);
+        EnemyAI.EnemyDamagePublic += 5 * Mathf.Pow((WaveCounter + 1), (float)1.12);
+
+        float PriceTemp = Mathf.Floor(250 + (30 * Mathf.Pow((WaveCounter + 1), (float)1.12)));
+        Turret.TurretPricePublic = Mathf.FloorToInt(PriceTemp);
+
         StartCoroutine(SpawnWave());
         yield return new WaitForSeconds(5f);
     }
@@ -54,11 +103,12 @@ public class GameManager : MonoBehaviour {
         if (isFirstWave)
         {
             EnemySpawnIndex += 0;
+            isFirstWave = false;
         }
 
         else
         {
-            EnemySpawnIndex += ((WaveCounter + 1) * 2);
+            EnemySpawnIndex += (WaveCounter * 2);
         }
 
         for (int i = 0; i < EnemySpawnIndex; i++)
@@ -71,7 +121,7 @@ public class GameManager : MonoBehaviour {
 
     void SpawnEnemy()
     {
-        Instantiate(EnemyPrefab, new Vector3(SpawnPosition.transform.position.x, Random.Range(-8f, 8f), 0), SpawnPosition.transform.rotation);
+        Instantiate(EnemyPrefab, new Vector3(SpawnPosition.transform.position.x, Random.Range(-6f, 6f), 0), SpawnPosition.transform.rotation);
     }
 
 }

@@ -6,11 +6,14 @@ public class EnemyAI : MonoBehaviour {
 
     [Header("Enemy Option")]
     public GameObject TargetPosition;
+    public GameObject CellPointLogos;
     public float EnemyHealth;
     public float EnemyBounty;
     public float EnemyMoveSpeed;
     public float EnemyDamage;
-
+    
+    public static float EnemyDamagePublic = 0;
+    public static float EnemyHealthPublic = 0;
     private float randPosY;
     
 	// Use this for initialization
@@ -18,6 +21,24 @@ public class EnemyAI : MonoBehaviour {
 
         TargetPosition = GameObject.FindGameObjectWithTag("Target");
         StartCoroutine(MoveBehavior());
+
+        if (EnemyHealthPublic == 0)
+        {
+            EnemyHealthPublic = EnemyHealth;
+        }
+        else
+        {
+            EnemyHealth = EnemyHealthPublic;
+        }
+
+        if(EnemyDamagePublic == 0)
+        {
+            EnemyDamagePublic = EnemyDamage;
+        }
+        else
+        {
+            EnemyDamage = EnemyDamagePublic;
+        }
 
 	}
 	
@@ -34,11 +55,11 @@ public class EnemyAI : MonoBehaviour {
         //transform.position = Vector3.Lerp(gameObject.transform.position, new Vector3(TargetPosition.transform.position.x, randPosY, 0), EnemyMoveSpeed * Time.deltaTime);
         
         //Random Movement on Y axis
-        if(gameObject.transform.position.y >= 8f)
+        if(gameObject.transform.position.y >= 7f)
         {
             randPosY = Random.Range(-8f, -1f);
         }
-        if(gameObject.transform.position.y <= -8f)
+        if(gameObject.transform.position.y <= -7f)
         {
             randPosY = Random.Range(1f, 8f);
         }
@@ -48,6 +69,7 @@ public class EnemyAI : MonoBehaviour {
         {
             GameManager.EnemyIndex--;
             GameManager.HealthOrganPublic -= EnemyDamage;
+            GameManager.CellPointPublic += EnemyBounty;
             Destroy(gameObject);
         }
 
@@ -55,6 +77,7 @@ public class EnemyAI : MonoBehaviour {
         if(EnemyHealth <= 0)
         {
             GameManager.EnemyIndex--;
+            Instantiate(CellPointLogos, gameObject.transform.position, gameObject.transform.rotation);
             Destroy(gameObject);
         }
 

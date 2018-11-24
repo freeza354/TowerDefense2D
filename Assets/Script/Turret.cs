@@ -5,23 +5,34 @@ using UnityEngine;
 public class Turret : MonoBehaviour {
     
     [Header("Attribute for Bullet Spawn")]
-    public static Transform target;
+    public Transform target;
     public GameObject bulletPrefab;
     public Transform FireTarget;
 
     [Header("Attribute for Turrets")]
-    public float range = 15f;
-    public float FireDelay = 0f;
-    public float FireRate = 1f;
+    public float Range = 15f;
+    public float FireDelay = 2f;
+    public float FireRate = 0.5f;
+    public int TurretPrice = 250;
 
     private string EnemyTag = "Enemy";
-    private float TurnSpeed = 2f;
-    
+    private float TurnSpeed = 8f;
+
+    public static int TurretPricePublic = 0;
     // Use this for initialization
     void Start () {
 
         InvokeRepeating("UpdateTarget", 0f, 0.5f);
-        
+
+        if (TurretPricePublic == 0)
+        {
+            TurretPricePublic = TurretPrice;
+        }
+        else
+        {
+            TurretPrice = TurretPricePublic;
+        }
+
 	}
 	
 	// Update is called once per frame
@@ -35,10 +46,10 @@ public class Turret : MonoBehaviour {
         float rotZ = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
         Quaternion LookRotate = Quaternion.Euler(new Vector3(0f, 0f, -(rotZ + 90)));
 
-        //Activate this tiwh Quaternion.Euler(Rotate) in the rotation
-        //Vector3 Rotate = Quaternion.Lerp(transform.rotation, LookRotate, TurnSpeed * Time.deltaTime).eulerAngles;
+        //Activate this with Quaternion.Euler(Rotate) in the rotation
+        Vector3 Rotate = Quaternion.Lerp(transform.rotation, LookRotate, TurnSpeed * Time.deltaTime).eulerAngles;
 
-        transform.rotation = LookRotate;
+        this.transform.rotation = Quaternion.Euler(Rotate);
 
         if(FireDelay <= 0f)
         {
@@ -53,7 +64,7 @@ public class Turret : MonoBehaviour {
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, range);
+        Gizmos.DrawWireSphere(transform.position, Range);
     }
 
     void Shoot()
@@ -76,7 +87,7 @@ public class Turret : MonoBehaviour {
 
         foreach (GameObject enemy in enemies)
         {
-            float distanceToEnemy = Vector2.Distance(transform.position, enemy.transform.position);
+            float distanceToEnemy = Vector2.Distance(this.transform.position, enemy.transform.position);
 
             if (distanceToEnemy < shortestDistance)
             {
@@ -86,7 +97,7 @@ public class Turret : MonoBehaviour {
 
         }
 
-        if(nearestEnemy != null && shortestDistance <= range)
+        if(nearestEnemy != null && shortestDistance <= Range)
         {
             target = nearestEnemy.transform;
         }

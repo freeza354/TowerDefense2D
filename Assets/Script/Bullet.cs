@@ -39,7 +39,6 @@ public class Bullet : MonoBehaviour {
 
     public void ChaseTarget(Transform _target)
     {
-        print("Terpanggil" + _target.position.x);
         target = _target;
     }
 
