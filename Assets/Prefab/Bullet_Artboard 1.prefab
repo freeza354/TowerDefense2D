@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4349398225163138}
   - component: {fileID: 212682186841301754}
   - component: {fileID: 114738193324939966}
+  - component: {fileID: 70071036761193194}
   m_Layer: 0
   m_Name: Bullet_Artboard 1
   m_TagString: Untagged
@@ -35,12 +36,27 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1876741167925678}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -9.88912, y: -0.5869755, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &70071036761193194
+CapsuleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1876741167925678}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.013369205, y: -0.013369083}
+  m_Size: {x: 1.1447611, y: 0.3559696}
+  m_Direction: 1
 --- !u!114 &114738193324939966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -52,7 +68,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90a4d2e16c0424e4b8d9cb069b6e3612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 5
+  bulletSpeed: 0.1
+  bulletDamage: 25
 --- !u!212 &212682186841301754
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -4,29 +4,31 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour {
 
+    [Header("Attributes for Bullet")]
+    public float bulletSpeed;
+    public float bulletDamage;
+
+    public static float bulletDamagePublic;
     private Transform target;
 
-    public float bulletSpeed = 5f;
+    private void Start()
+    {
+        bulletDamagePublic = bulletDamage;
+    }
 
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update () {
 		
         if(target == null)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
             return;
         }
 
-        Vector2 dir = target.position - transform.position;
+        //Vector2 dir = target.position - transform.position;
         float distanceSpeed = bulletSpeed * Time.deltaTime;
-
-        if(dir.magnitude <= distanceSpeed)
-        {
-            HitTarget();
-            return;
-        }
-
-        transform.Translate(dir.normalized * distanceSpeed);
+        
+        transform.Translate(new Vector2(target.position.x, target.position.y) * distanceSpeed);
 
 	}
 

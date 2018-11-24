@@ -23,7 +23,6 @@ public class GameManager : MonoBehaviour {
 	void Start () {
 
         HealthOrganPublic = HealthOrgan;
-        StartCoroutine(StartNextWave());
 
 	}
 	

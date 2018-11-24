@@ -4,20 +4,19 @@ using UnityEngine;
 
 public class Turret : MonoBehaviour {
     
+    [Header("Attribute for Bullet Spawn")]
     public static Transform target;
     public GameObject bulletPrefab;
     public Transform FireTarget;
 
     [Header("Attribute for Turrets")]
-    public float range = 15f;    
-    public float FireCountdown = 0f;
+    public float range = 15f;
+    public float FireDelay = 0f;
     public float FireRate = 1f;
 
     private string EnemyTag = "Enemy";
     private float TurnSpeed = 2f;
-
-
-
+    
     // Use this for initialization
     void Start () {
 
@@ -27,24 +26,27 @@ public class Turret : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
         if (target == null)
             return;
 
         Vector3 dir = target.position - transform.position;
         dir.Normalize();
-
         float rotZ = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
         Quaternion LookRotate = Quaternion.Euler(new Vector3(0f, 0f, -(rotZ + 90)));
-        Vector3 Rotate = Quaternion.Lerp(transform.rotation, LookRotate, TurnSpeed * Time.deltaTime).eulerAngles;
-        transform.rotation = Quaternion.Euler(Rotate);
 
-        if(FireCountdown <= 0f)
+        //Activate this tiwh Quaternion.Euler(Rotate) in the rotation
+        //Vector3 Rotate = Quaternion.Lerp(transform.rotation, LookRotate, TurnSpeed * Time.deltaTime).eulerAngles;
+
+        transform.rotation = LookRotate;
+
+        if(FireDelay <= 0f)
         {
             Shoot();
-            FireCountdown = 1f / FireRate;
+            FireDelay = 1f / FireRate;
         }
 
-        FireCountdown -= Time.deltaTime;
+        FireDelay -= Time.deltaTime;
 
 	}
 
@@ -56,7 +58,7 @@ public class Turret : MonoBehaviour {
 
     void Shoot()
     {
-        GameObject bulletTemp = (GameObject)Instantiate(bulletPrefab, FireTarget);
+        GameObject bulletTemp = (GameObject)Instantiate(bulletPrefab, FireTarget.position, FireTarget.rotation);
         Bullet bullet = bulletTemp.GetComponent<Bullet>();
 
         if(bullet != null)
