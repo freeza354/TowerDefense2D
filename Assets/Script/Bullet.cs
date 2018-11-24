@@ -21,7 +21,7 @@ public class Bullet : MonoBehaviour {
 		
         if(target == null)
         {
-            //Destroy(gameObject);
+            Destroy(gameObject);
             return;
         }
 
