@@ -69,7 +69,8 @@ public class GameManager : MonoBehaviour {
 
         if(HealthOrganPublic <= 0)
         {
-            //GameOver;
+            Application.LoadLevel("gameOver");
+            return;
         }
 
         //Build Turrets
