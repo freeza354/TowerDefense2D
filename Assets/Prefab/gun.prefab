@@ -101,9 +101,10 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1876741167925678, guid: 451b3afcdc085c24580dc8442b39bc13,
     type: 2}
   FireTarget: {fileID: 4149996731970984}
-  range: 6
+  Range: 15
   FireDelay: 2
   FireRate: 1
+  TurretPrice: 250
 --- !u!212 &212266649154604116
 SpriteRenderer:
   m_ObjectHideFlags: 1

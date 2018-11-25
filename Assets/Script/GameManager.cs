@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour {
     [Header("UI Settings")]
     public Text TurretPriceText;
     public Text MoneyText;
+    public Text SpawnerSign;
+    public Canvas CanvasParent;
 
     public static float HealthOrganPublic;
 
@@ -36,18 +38,27 @@ public class GameManager : MonoBehaviour {
         HealthOrganPublic = HealthOrgan;
         canBuild = false;
         CellPointPublic = CellsPoint;
-
-	}
+        
+    }
 	
 	// Update is called once per frame
 	void Update () {
-
+        
         //Update money
         CellsPoint = CellPointPublic;
 
         //Update UI
-        TurretPriceText.text = "" + Turret.TurretPricePublic;
+        if(Turret.TurretPricePublic == 0)
+        {
+            TurretPriceText.text = "" + 250;
+        }
+        else
+        {
+            TurretPriceText.text = "" + Turret.TurretPricePublic;
+        }
+
         MoneyText.text = "" + CellsPoint;
+        SpawnerSign.text = "Wave " + (WaveCounter + 1);
 
         if(EnemyIndex == 0)
         {
@@ -94,14 +105,20 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator StartNextWave()
     {
-        EnemyAI.EnemyHealthPublic += 25 * Mathf.Pow((WaveCounter + 1), (float)1.12);
-        EnemyAI.EnemyDamagePublic += 5 * Mathf.Pow((WaveCounter + 1), (float)1.12);
+        if(!isFirstWave)
+        {
+            EnemyAI.EnemyHealthPublic += 25 * Mathf.Pow((WaveCounter + 1), (float)1.12);
+            EnemyAI.EnemyDamagePublic += 5 * Mathf.Pow((WaveCounter + 1), (float)1.12);
 
-        float PriceTemp = Mathf.Floor(250 + (30 * Mathf.Pow((WaveCounter + 1), (float)1.12)));
-        Turret.TurretPricePublic = Mathf.FloorToInt(PriceTemp);
+            float PriceTemp = Mathf.Floor(250 + (30 * Mathf.Pow((WaveCounter + 1), (float)1.12)));
+            Turret.TurretPricePublic = Mathf.FloorToInt(PriceTemp);
+        }
 
-        StartCoroutine(SpawnWave());
+        Instantiate(SpawnerSign, CanvasParent.transform);
+
         yield return new WaitForSeconds(5f);
+        StartCoroutine(SpawnWave());
+
     }
 
     IEnumerator SpawnWave()
@@ -114,10 +131,10 @@ public class GameManager : MonoBehaviour {
 
         else
         {
-            EnemySpawnIndex += (WaveCounter * 2);
+            EnemySpawnIndex += ((WaveCounter + 1) * 2);
         }
 
-        for (int i = 0; i < EnemySpawnIndex; i++)
+        for (int i = 0; i < EnemySpawnIndex + 1; i++)
         {
             SpawnEnemy();
             yield return new WaitForSeconds(0.5f);
